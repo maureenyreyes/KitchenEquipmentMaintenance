@@ -1,0 +1,47 @@
+﻿<Window x:Class="KitchenEquipmentMaintenance.Views.AdminView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+       xmlns:vm="clr-namespace:KitchenEquipmentMaintenance.ViewModels"
+          xmlns:v="clr-namespace:KitchenEquipmentMaintenance.Views"
+        mc:Ignorable="d"
+        Title="AdminView" Height="600" Width="1000">
+    <Grid Background="#F0F0F0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="#2C3E50" VerticalAlignment="Stretch">
+            <StackPanel>
+                <Button Content="Users" Command="{Binding UsersCommand}"  Style="{StaticResource SidebarButtonStyle}" Visibility="{Binding UsersMenuVisibility}"/>
+                <Button Content="Sites" Command="{Binding SiteCommand}" Style="{StaticResource SidebarButtonStyle}"/>
+                <Button Content="Equipments" Command="{Binding EquipmentCommand}"  Style="{StaticResource SidebarButtonStyle}"/>
+                <Button Content="Logout" Command="{Binding LogOutCommand}" Style="{StaticResource SidebarButtonStyle}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Main Content Area -->
+        <Border Grid.Column="1" Background="White" BorderBrush="#E0E0E0" BorderThickness="0,0,1,0">
+            <ContentControl Content="{Binding CurrentViewModel}">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type vm:UserMaintenanceViewModel}">
+                        <v:UserMaintenanceView />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:SiteMaintenanceViewModel}">
+                        <v:SiteMaintenanceView/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:EquipmentMaintenanceViewModel}">
+                        <v:EquipmentMaintenanceView/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:RegisteredEquipmentViewModel}">
+                        <v:RegisteredEquipmentView/>
+                    </DataTemplate>
+                    <!-- Add more DataTemplates for other ViewModels as needed -->
+                </ContentControl.Resources>
+            </ContentControl>
+        </Border>
+    </Grid>
+</Window>

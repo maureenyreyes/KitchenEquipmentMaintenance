@@ -1,0 +1,25 @@
+﻿<Window x:Class="KitchenEquipmentMaintenance.Views.SiteAddView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KitchenEquipmentMaintenance.Views"
+        mc:Ignorable="d"
+        Title="SiteAddView" Height="450" Width="800">
+    <Grid>
+        <Border CornerRadius="10" Background="#7289DA" Padding="20" Margin="10">
+            <StackPanel>
+                <TextBlock Text="Add Site" FontSize="24" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Description" Foreground="White"/>
+                    <TextBox Text="{Binding Site.Description, Mode=TwoWay}" Style="{StaticResource ModernTextBoxStyle}"/>
+                </StackPanel>
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Active" Foreground="White"/>
+                    <CheckBox IsChecked="{Binding Site.Active, Mode=TwoWay}" Style="{StaticResource ModernCheckBoxStyle}"/>
+                </StackPanel>
+                <Button Content="Save" Command="{Binding AddNewSiteCommand}" Margin="0,20,0,0" Style="{StaticResource ModernButtonStyle}"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
