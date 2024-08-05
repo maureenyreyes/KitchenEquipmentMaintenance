@@ -9,11 +9,11 @@
     <Grid>
         <DataGrid ItemsSource="{Binding Users}" Style="{StaticResource ModernDataGridStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="User Type" Binding="{Binding UserType, Mode=TwoWay}"/>
+                <DataGridTextColumn Header="Username" Binding="{Binding UserName, Mode=TwoWay}"/>
                 <DataGridTextColumn Header="First Name" Binding="{Binding FirstName,Mode=TwoWay}"/>
                 <DataGridTextColumn Header="Last Name" Binding="{Binding LastName, Mode=TwoWay}"/>
                 <DataGridTextColumn Header="Email Address" Binding="{Binding EmailAddress, Mode=TwoWay}"/>
-                <DataGridTextColumn Header="Username" Binding="{Binding UserName, Mode=TwoWay}"/>
+                <DataGridTextColumn Header="User Type" Binding="{Binding UserType, Mode=TwoWay}"/>
                 <DataGridTemplateColumn Header="Actions">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
