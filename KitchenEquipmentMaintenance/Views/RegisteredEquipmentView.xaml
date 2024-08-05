@@ -20,7 +20,7 @@
         </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Equipments}" SelectedItem="{Binding SelectedEquipment}" AutoGenerateColumns="False" Style="{StaticResource ModernDataGridStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Equipment ID" Binding="{Binding EquipmentId}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Site Description" Binding="{Binding FirstSiteDescription}" />
                 <DataGridTextColumn Header="Serial Number" Binding="{Binding SerialNumber}" />
                 <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
                 <DataGridTextColumn Header="Condition" Binding="{Binding Condition}"/>

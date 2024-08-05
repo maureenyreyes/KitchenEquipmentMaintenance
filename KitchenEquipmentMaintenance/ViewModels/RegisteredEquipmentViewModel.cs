@@ -7,12 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Data.Entity;
+using System.Runtime.Remoting.Contexts;
 
 namespace KitchenEquipmentMaintenance.ViewModels
 {
     public class RegisteredEquipmentViewModel : BaseViewModel
     {
+        private readonly Action<BaseViewModel> _setCurrentViewModelAction;
+        private readonly AppDbContext _context;
+        private bool _isFromRegisteredEquipment = true;
         private ObservableCollection<Equipment> _equipments;
+    
         public ObservableCollection<Equipment> Equipments
         {
             get => _equipments;
@@ -48,13 +54,14 @@ namespace KitchenEquipmentMaintenance.ViewModels
             set { _selectedSite = value; OnPropertyChanged(); }
 
         }
-
         public ICommand AddEquipmentCommand { get; }
         public ICommand EditEquipmentCommand { get; }
         public ICommand DeleteEquipmentCommand { get; }
 
-        public RegisteredEquipmentViewModel(Site selectedSite)
+        public RegisteredEquipmentViewModel(Site selectedSite, Action<BaseViewModel> setCurrentViewModelAction)
         {
+            _setCurrentViewModelAction = setCurrentViewModelAction;
+            _context = new AppDbContext();
             SelectedSite = selectedSite;
             LoadEquiments();
 
@@ -65,27 +72,31 @@ namespace KitchenEquipmentMaintenance.ViewModels
 
         private void LoadEquiments()
         {
-            using (var context = new AppDbContext())
-            {
-                Equipments = new ObservableCollection<Equipment>(context.Equipments.Where(x => x.UserId == App.CurrentUser.UserId && x.RegisteredSites.Any(rs => rs.SiteId == SelectedSite.SiteId)).ToList());
-            }
+            var equipmentsWithRegisteredEquipments = _context.Equipments.Where(x => x.UserId == App.CurrentUser.UserId && x.RegisteredSites.Any(rs => rs.SiteId == SelectedSite.SiteId))
+                    .Include(e => e.RegisteredSites)
+                    .ToList();
+
+            Equipments = new ObservableCollection<Equipment>(equipmentsWithRegisteredEquipments);
+
             OnPropertyChanged(nameof(Equipments));
         }
 
         private void AddEquipment()
         {
-            var equipmentAddViewModel = new EquipmentAddViewModel(SelectedSite);
-            var equipmentAddView = new EquipmentAddView { DataContext = equipmentAddViewModel };
-            equipmentAddView.ShowDialog();
+            //var equipmentAddViewModel = new EquipmentAddViewModel(SelectedSite);
+            //var equipmentAddView = new EquipmentAddView { DataContext = equipmentAddViewModel };
+            //equipmentAddView.ShowDialog();
 
+            _setCurrentViewModelAction?.Invoke(new EquipmentAddViewModel(SelectedSite, _setCurrentViewModelAction, _isFromRegisteredEquipment));
             LoadEquiments();
         }
 
         private void EditEquipment(Equipment equipment)
         {
-            var equipmentEditViewModel = new EquipmentEditViewModel(equipment);
-            var equipmentEditView = new EquipmentEditView { DataContext = equipmentEditViewModel };
-            equipmentEditView.ShowDialog();
+            //var equipmentEditViewModel = new EquipmentEditViewModel(equipment);
+            //var equipmentEditView = new EquipmentEditView { DataContext = equipmentEditViewModel };
+            //equipmentEditView.ShowDialog();
+            _setCurrentViewModelAction?.Invoke(new EquipmentEditViewModel(equipment, _setCurrentViewModelAction, _isFromRegisteredEquipment));
 
             LoadEquiments();
         }

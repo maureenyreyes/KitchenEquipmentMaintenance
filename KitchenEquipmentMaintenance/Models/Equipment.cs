@@ -16,6 +16,21 @@ namespace KitchenEquipmentMaintenance.Models
         public string Condition { get; set; }
         public int UserId { get; set; }
         public virtual ICollection<RegisteredEquipment> RegisteredSites { get; set; }
+        public int? FirstSiteId
+        {
+            get
+            {
+                return RegisteredSites?.FirstOrDefault()?.SiteId;
+            }
+        }
+        public string FirstSiteDescription
+        {
+            get
+            {
+                var firstRegisteredSite = RegisteredSites?.FirstOrDefault();
+                return firstRegisteredSite?.Site?.Description ?? "No Site";
+            }
+        }
     }
 
 }

@@ -18,5 +18,6 @@ namespace KitchenEquipmentMaintenance.Models
             Database.SetInitializer(new CreateDatabaseIfNotExists<AppDbContext>());
             Database.Initialize(false); // Initialize the database only if it doesn't exist
         }
+       
     }
 }

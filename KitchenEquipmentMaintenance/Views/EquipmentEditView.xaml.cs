@@ -17,7 +17,7 @@ namespace KitchenEquipmentMaintenance.Views
     /// <summary>
     /// Interaction logic for EquipmentEditView.xaml
     /// </summary>
-    public partial class EquipmentEditView : Window
+    public partial class EquipmentEditView : UserControl
     {
         public EquipmentEditView()
         {

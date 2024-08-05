@@ -1,4 +1,4 @@
-﻿<Window x:Class="KitchenEquipmentMaintenance.Views.EquipmentAddView"
+﻿<UserControl x:Class="KitchenEquipmentMaintenance.Views.EquipmentAddView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,30 +6,48 @@
         xmlns:local="clr-namespace:KitchenEquipmentMaintenance.Views"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="EquipmentAddView" Height="450" Width="800">
-    <Grid>
-        <Border CornerRadius="10" Background="#7289DA" Padding="20" Margin="10">
+        d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White">
+        <Border CornerRadius="10" Padding="20" Margin="10" BorderBrush="#7289DA" BorderThickness="1">
             <StackPanel>
-                <TextBlock Text="Add Equipment" FontSize="24" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,20"/>
-                <StackPanel Margin="0,10,0,0">
-                    <Label Content="SerialNumber" Foreground="White"/>
-                    <TextBox  TextChanged="OnTextChanged" Text="{Binding Equipment.SerialNumber, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource ModernTextBoxStyle}"/>
+                <TextBlock Text="Add Equipment" FontSize="24" Foreground="#7289DA" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+
+                <StackPanel Margin="0,5,0,0">
+                    <Label Content="Site" Foreground="Black"/>
+                    <ComboBox ItemsSource="{Binding AvailableSites}" 
+                SelectedItem="{Binding SelectedSite}" 
+                DisplayMemberPath="Description"  IsEnabled="{Binding IsComboBoxEnabled}"  />
                 </StackPanel>
-                <StackPanel Margin="0,10,0,0">
-                    <Label Content="Description" Foreground="White"/>
-                    <TextBox  TextChanged="OnTextChanged" Text="{Binding Equipment.Description, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource ModernTextBoxStyle}"/>
+
+                <StackPanel Margin="0,5,0,0">
+                    <Label Content="Serial Number" Foreground="Black"/>
+                    <TextBox Text="{Binding Equipment.SerialNumber, Mode=TwoWay}" Style="{StaticResource ModernTextBoxStyle}"/>
+                    <TextBlock Foreground="Red" Text="{Binding SerialNumberError, FallbackValue=''}" Margin="5,5,0,0"/>
                 </StackPanel>
-                <Label Content="Condition" Foreground="White"/>
-                <ComboBox SelectedItem="{Binding SelectedCondition, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" >
-                    <ComboBox.ItemsSource>
-                        <x:Array Type="{x:Type sys:String}">
-                            <sys:String>Working</sys:String>
-                            <sys:String>Not Working</sys:String>
-                        </x:Array>
-                    </ComboBox.ItemsSource>
-                </ComboBox>
-                <Button Content="Save" Command="{Binding AddNewEquipmentCommand}" Margin="0,20,0,0" Style="{StaticResource ModernButtonStyle}"/>
+
+                <StackPanel Margin="0,5,0,0">
+                    <Label Content="Description" Foreground="Black"/>
+                    <TextBox Text="{Binding Equipment.Description, Mode=TwoWay}" Style="{StaticResource ModernTextBoxStyle}"/>
+                    <TextBlock Foreground="Red" Text="{Binding DescriptionError, FallbackValue=''}" Margin="5,5,0,0"/>
+                </StackPanel>
+
+                <StackPanel Margin="0,5,0,0">
+                    <Label Content="Condition" Foreground="Black"/>
+                    <ComboBox SelectedItem="{Binding SelectedCondition, Mode=TwoWay}">
+                        <ComboBox.ItemsSource>
+                            <x:Array Type="{x:Type sys:String}">
+                                <sys:String>Working</sys:String>
+                                <sys:String>Not Working</sys:String>
+                            </x:Array>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                    <Button Content="Save" Command="{Binding AddNewEquipmentCommand}" Style="{StaticResource ModernButtonStyle}" MinWidth="150"/>
+                    <Button Content="Cancel" Command="{Binding CancelCommand}" Style="{StaticResource ModernButtonStyle}" MinWidth="150"/>
+                </StackPanel>
             </StackPanel>
         </Border>
     </Grid>
-</Window>
+</UserControl>

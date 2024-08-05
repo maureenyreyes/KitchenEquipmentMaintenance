@@ -22,6 +22,7 @@ namespace KitchenEquipmentMaintenance.ViewModels
         public ICommand LogOutCommand { get; }
 
         public UserType CurrentUserType => App.CurrentUser.UserType;
+        public string CurrentUserName => App.CurrentUser.UserName;
 
         public Visibility UsersMenuVisibility => CurrentUserType != UserType.SuperAdmin ? Visibility.Collapsed : Visibility.Visible;
 
@@ -29,13 +30,13 @@ namespace KitchenEquipmentMaintenance.ViewModels
         {
             _adminView = adminView;
 
-            UsersCommand = new RelayCommand(() => CurrentViewModel = new UserMaintenanceViewModel());
+            UsersCommand = new RelayCommand(() => CurrentViewModel = new UserMaintenanceViewModel(SetCurrentViewModel));
             SiteCommand = new RelayCommand(() => CurrentViewModel = new SiteMaintenanceViewModel(SetCurrentViewModel));
-            EquipmentCommand = new RelayCommand(() => CurrentViewModel = new EquipmentMaintenanceViewModel());
+            EquipmentCommand = new RelayCommand(() => CurrentViewModel = new EquipmentMaintenanceViewModel(SetCurrentViewModel));
             LogOutCommand = new RelayCommand(LogOut);
 
             if (CurrentUserType == UserType.SuperAdmin)
-                CurrentViewModel = new UserMaintenanceViewModel();
+                CurrentViewModel = new UserMaintenanceViewModel(SetCurrentViewModel);
             else
                 CurrentViewModel = new SiteMaintenanceViewModel(SetCurrentViewModel);
         }

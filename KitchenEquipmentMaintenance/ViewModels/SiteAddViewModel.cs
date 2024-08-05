@@ -13,7 +13,10 @@ namespace KitchenEquipmentMaintenance.ViewModels
 {
     public class SiteAddViewModel : BaseViewModel
     {
+        private readonly Action<BaseViewModel> _setCurrentViewModelAction;
         public Site _site;
+        private string _descriptionError;
+        private bool _isValid;
 
         public Site Site
         {
@@ -24,27 +27,61 @@ namespace KitchenEquipmentMaintenance.ViewModels
                 OnPropertyChanged(nameof(Site));
             }
         }
-        public ICommand AddNewSiteCommand { get; }
-
-        public SiteAddViewModel() 
+        public string DescriptionError
         {
 
+            get { return _descriptionError; } 
+            set
+            {
+                _descriptionError = value;
+                OnPropertyChanged(nameof(DescriptionError));
+            }
+        }
+
+        public ICommand AddNewSiteCommand { get; }
+        public ICommand CancelCommand { get; }
+
+        public SiteAddViewModel(Action<BaseViewModel> setCurrentViewModelAction)
+        {
+            _setCurrentViewModelAction = setCurrentViewModelAction;
             Site = new Site();
             AddNewSiteCommand = new RelayCommand(Save);
+            CancelCommand = new RelayCommand(CloseWindow);
         }
 
         private void Save()
         {
-            using (var context = new AppDbContext())
+            ValidateFields();
+            if (_isValid)
             {
-                Site.UserId = App.CurrentUser.UserId;
-                context.Sites.Add(Site);
-                context.SaveChanges();
+                using (var context = new AppDbContext())
+                {
+                    Site.UserId = App.CurrentUser.UserId;
+                    context.Sites.Add(Site);
+                    context.SaveChanges();
 
-                // Close the window after saving
-                Application.Current.Windows.OfType<SiteAddView>().FirstOrDefault()?.Close();
+                    CloseWindow();
+
+                }
             }
+        }
+        private void ValidateFields()
+        {
+            _isValid = true;
 
+            if (string.IsNullOrWhiteSpace(Site.Description))
+            {
+                DescriptionError = "Description is required";
+                _isValid = false;
+            }
+            else
+            {
+                DescriptionError = string.Empty;
+            }
+        }
+        private void CloseWindow()
+        {
+            _setCurrentViewModelAction?.Invoke(new SiteMaintenanceViewModel(_setCurrentViewModelAction));
         }
     }
 }

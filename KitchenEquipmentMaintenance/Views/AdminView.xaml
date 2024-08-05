@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
        xmlns:vm="clr-namespace:KitchenEquipmentMaintenance.ViewModels"
-          xmlns:v="clr-namespace:KitchenEquipmentMaintenance.Views"
+        xmlns:v="clr-namespace:KitchenEquipmentMaintenance.Views"
+        xmlns:vx="clr-namespace:KitchenEquipmentMaintenance.Views.User"
         mc:Ignorable="d"
         Title="AdminView" Height="600" Width="1000">
     <Grid Background="#F0F0F0">
@@ -14,11 +15,24 @@
         </Grid.ColumnDefinitions>
 
         <!-- Sidebar -->
-        <Border Grid.Column="0" Background="#2C3E50" VerticalAlignment="Stretch">
+        <Border Grid.Column="0" Background="#2C3E50" VerticalAlignment="Stretch" Padding="10">
+
             <StackPanel>
-                <Button Content="Users" Command="{Binding UsersCommand}"  Style="{StaticResource SidebarButtonStyle}" Visibility="{Binding UsersMenuVisibility}"/>
+                <Grid HorizontalAlignment="Center" Margin="0,0,0,10">
+                    <Image Width="60" Height="60" Source="pack://application:,,,/Images/user.png" Stretch="UniformToFill">
+                        <Image.Effect>
+                            <DropShadowEffect Color="Black" Direction="270" ShadowDepth="3" BlurRadius="5" Opacity="0.3"/>
+                        </Image.Effect>
+                    </Image>
+                </Grid>
+                <!-- User Information -->
+                <TextBlock Text="{Binding CurrentUserName}" HorizontalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+                <TextBlock Text="{Binding CurrentUserType}" HorizontalAlignment="Center" Foreground="White" FontSize="14" Margin="0,0,0,20"/>
+
+                <!-- Sidebar Buttons -->
+                <Button Content="Users" Command="{Binding UsersCommand}" Style="{StaticResource SidebarButtonStyle}" Visibility="{Binding UsersMenuVisibility}"/>
                 <Button Content="Sites" Command="{Binding SiteCommand}" Style="{StaticResource SidebarButtonStyle}"/>
-                <Button Content="Equipments" Command="{Binding EquipmentCommand}"  Style="{StaticResource SidebarButtonStyle}"/>
+                <Button Content="Equipments" Command="{Binding EquipmentCommand}" Style="{StaticResource SidebarButtonStyle}"/>
                 <Button Content="Logout" Command="{Binding LogOutCommand}" Style="{StaticResource SidebarButtonStyle}"/>
             </StackPanel>
         </Border>
@@ -39,9 +53,24 @@
                     <DataTemplate DataType="{x:Type vm:RegisteredEquipmentViewModel}">
                         <v:RegisteredEquipmentView/>
                     </DataTemplate>
-                    <!-- Add more DataTemplates for other ViewModels as needed -->
+                    <DataTemplate DataType="{x:Type vm:SiteAddViewModel}">
+                        <v:SiteAddView/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:SiteEditViewModel}">
+                        <v:SiteEditView/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:UserEditViewModel}">
+                        <vx:UserEditView/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:EquipmentAddViewModel}">
+                        <v:EquipmentAddView/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:EquipmentEditViewModel}">
+                        <v:EquipmentEditView/>
+                    </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>
         </Border>
     </Grid>
+
 </Window>

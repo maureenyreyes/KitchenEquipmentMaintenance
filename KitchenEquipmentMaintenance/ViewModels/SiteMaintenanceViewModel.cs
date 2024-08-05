@@ -45,59 +45,68 @@ namespace KitchenEquipmentMaintenance.ViewModels
             ViewEquipmentCommand = new RelayCommand(ViewEquipment);
         }
 
-        public event Action<BaseViewModel> RequestViewEquipment;
-
         private void ViewEquipment()
         {
-            //RequestViewEquipment?.Invoke(new RegisteredEquipmentViewModel(SelectedSite));
-
-            //var registeredEquipmentViewModel = new RegisteredEquipmentViewModel(SelectedSite);
-            //var registeredEquipmentView = new RegisteredEquipmentView { DataContext = registeredEquipmentViewModel };
-
-            //registeredEquipmentView.ShowDialog();
             if (SelectedSite != null)
             {
-                _setCurrentViewModelAction?.Invoke(new RegisteredEquipmentViewModel(SelectedSite));
+                _setCurrentViewModelAction?.Invoke(new RegisteredEquipmentViewModel(SelectedSite, _setCurrentViewModelAction));
             }
 
         }
 
         private void AddSite()
         {
-            var addSiteViewModel = new SiteAddViewModel();
-            var addSiteView = new SiteAddView { DataContext = addSiteViewModel };
-
-            addSiteView.ShowDialog();
+            _setCurrentViewModelAction?.Invoke(new SiteAddViewModel(_setCurrentViewModelAction));
 
             LoadSites();
         }
         private void EditSite(Site site) 
         {
-            var editSiteViewModel = new SiteEditViewModel(site);
-            var editSiteView = new SiteEditView { DataContext = editSiteViewModel };
-            editSiteView.ShowDialog();
+            _setCurrentViewModelAction?.Invoke(new SiteEditViewModel(site, _setCurrentViewModelAction));          
             LoadSites();
         }
+
         private void DeleteSite(Site site)
         {
             using (var context = new AppDbContext())
             {
-                // Check if the user is already attached to the context
-                var existingSite = context.Sites.Find(site.SiteId);
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var existingSite = context.Sites.Find(site.SiteId);
+                        if (existingSite == null)
+                        {
+                            throw new InvalidOperationException("Site not found in the database.");
+                        }
 
-                if (existingSite != null)
-                {
-                    context.Sites.Remove(existingSite); // Remove the attached entity
-                    context.SaveChanges();
-                    Sites.Remove(site); // Remove from the local collection
-                }
-                else
-                {
-                    throw new InvalidOperationException("Site not found in the database.");
+                        var existingRegisteredEquipment = context.RegisteredEquipments
+                            .Where(x => x.SiteId == site.SiteId).ToList();
+
+                        foreach (var item in existingRegisteredEquipment)
+                        {
+                            item.SiteId = null;
+                        } 
+
+                        context.SaveChanges();
+
+                        context.Sites.Remove(existingSite);
+                        context.SaveChanges();
+
+                        Sites.Remove(site);
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
             }
             LoadSites();
         }
+
         private void LoadSites()
         {
             using (var context = new AppDbContext())

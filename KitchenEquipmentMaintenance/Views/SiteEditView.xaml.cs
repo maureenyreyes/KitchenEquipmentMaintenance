@@ -17,7 +17,7 @@ namespace KitchenEquipmentMaintenance.Views
     /// <summary>
     /// Interaction logic for SiteEditView.xaml
     /// </summary>
-    public partial class SiteEditView : Window
+    public partial class SiteEditView : UserControl
     {
         public SiteEditView()
         {

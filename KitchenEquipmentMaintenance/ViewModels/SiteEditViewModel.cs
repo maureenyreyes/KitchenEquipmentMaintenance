@@ -13,7 +13,10 @@ namespace KitchenEquipmentMaintenance.ViewModels
 {
     public class SiteEditViewModel : BaseViewModel
     {
+        private readonly Action<BaseViewModel> _setCurrentViewModelAction;
         public Site _site;
+        private string _descriptionError;
+        private bool _isValid;
 
         public Site Site
         {
@@ -24,31 +27,67 @@ namespace KitchenEquipmentMaintenance.ViewModels
                 OnPropertyChanged(nameof(Site));
             }
         }
+        public string DescriptionError
+        {
+
+            get { return _descriptionError; }
+            set
+            {
+                _descriptionError = value;
+                OnPropertyChanged(nameof(DescriptionError));
+            }
+        }
 
         public ICommand EditSiteCommand { get;}
+        public ICommand CancelCommand { get;}
 
-        public SiteEditViewModel(Site site)
+        public SiteEditViewModel(Site site, Action<BaseViewModel> setCurrentViewModelAction)
         {
+            _setCurrentViewModelAction = setCurrentViewModelAction;
             Site = site;
             EditSiteCommand = new RelayCommand(Save);
+            CancelCommand = new RelayCommand(CloseWindow);  
         }
 
         private void Save()
         {
-            using (var context = new AppDbContext())
+            ValidateFields();
+            if (_isValid)
             {
-                var existingSite = context.Sites.Find(Site.SiteId);
-                if (existingSite != null)
+               using (var context = new AppDbContext())
                 {
-                    existingSite.SiteId = Site.SiteId;
-                    existingSite.Description = Site.Description;
-                    existingSite.Active = Site.Active;
+                    var existingSite = context.Sites.Find(Site.SiteId);
+                    if (existingSite != null)
+                    {
+                        existingSite.SiteId = Site.SiteId;
+                        existingSite.Description = Site.Description;
+                        existingSite.Active = Site.Active;
+
+                    }
+                    context.SaveChanges();
+                    CloseWindow();
 
                 }
-                context.SaveChanges();
             }
-            // Close the window after saving
-            Application.Current.Windows.OfType<SiteEditView>().FirstOrDefault()?.Close();
+         
+        }
+        private void ValidateFields()
+        {
+            _isValid = true;
+
+            if (string.IsNullOrWhiteSpace(Site.Description))
+            {
+                DescriptionError = "Description is required";
+                _isValid = false;
+            }
+            else
+            {
+                DescriptionError = string.Empty;
+            }
+        }
+        private void CloseWindow()
+        {
+            _setCurrentViewModelAction?.Invoke(new SiteMaintenanceViewModel(_setCurrentViewModelAction));
         }
     }
 }

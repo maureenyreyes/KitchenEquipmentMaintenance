@@ -18,17 +18,18 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\</PublishUrl>
+    <PublishUrl>C:\Application Files\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
+    <UpdateUrl>http://localhost/KitchenEquipmentMaintenance/</UpdateUrl>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -94,13 +95,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\PasswordHelper.cs" />
-    <Compile Include="Migrations\202407150354288_CreateTable.cs" />
-    <Compile Include="Migrations\202407150354288_CreateTable.Designer.cs">
-      <DependentUpon>202407150354288_CreateTable.cs</DependentUpon>
+    <Compile Include="Migrations\202407260735264_CreateTable.cs" />
+    <Compile Include="Migrations\202407260735264_CreateTable.Designer.cs">
+      <DependentUpon>202407260735264_CreateTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202407150355557_SeedData.cs" />
-    <Compile Include="Migrations\202407150355557_SeedData.Designer.cs">
-      <DependentUpon>202407150355557_SeedData.cs</DependentUpon>
+    <Compile Include="Migrations\202407260751053_UpdateForeignKeyInRegisteredEquipments.cs" />
+    <Compile Include="Migrations\202407260751053_UpdateForeignKeyInRegisteredEquipments.Designer.cs">
+      <DependentUpon>202407260751053_UpdateForeignKeyInRegisteredEquipments.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Enumerations.cs" />
@@ -234,11 +235,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202407150354288_CreateTable.resx">
-      <DependentUpon>202407150354288_CreateTable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202407260735264_CreateTable.resx">
+      <DependentUpon>202407260735264_CreateTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202407150355557_SeedData.resx">
-      <DependentUpon>202407150355557_SeedData.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202407260751053_UpdateForeignKeyInRegisteredEquipments.resx">
+      <DependentUpon>202407260751053_UpdateForeignKeyInRegisteredEquipments.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -255,15 +256,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\fruits.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\kitchen.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\wooden.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
@@ -274,6 +266,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\user.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

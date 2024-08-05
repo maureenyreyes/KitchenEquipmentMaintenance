@@ -25,5 +25,12 @@ namespace KitchenEquipmentMaintenance.Views
             InitializeComponent();
             DataContext = new SignUpViewModel();
         }
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is SignUpViewModel viewModel)
+            {
+                viewModel.Password = ((PasswordBox)sender).Password;
+            }
+        }
     }
 }

@@ -18,18 +18,11 @@ namespace KitchenEquipmentMaintenance.Views
     /// <summary>
     /// Interaction logic for EquipmentAddView.xaml
     /// </summary>
-    public partial class EquipmentAddView : Window
+    public partial class EquipmentAddView : UserControl
     {
         public EquipmentAddView()
         {
             InitializeComponent();
-        }
-        private void OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (DataContext is EquipmentAddViewModel viewModel)
-            {
-                viewModel.RaiseCanExecuteChanged();
-            }
-        }
+        }   
     }
 }

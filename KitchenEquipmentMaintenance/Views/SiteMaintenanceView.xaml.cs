@@ -24,7 +24,6 @@ namespace KitchenEquipmentMaintenance.Views
         public SiteMaintenanceView()
         {
             InitializeComponent();
-            //DataContext = new SiteMaintenanceViewModel();
         }
     }
 }
