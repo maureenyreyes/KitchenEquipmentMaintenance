@@ -83,19 +83,12 @@ namespace KitchenEquipmentMaintenance.ViewModels
 
         private void AddEquipment()
         {
-            //var equipmentAddViewModel = new EquipmentAddViewModel(SelectedSite);
-            //var equipmentAddView = new EquipmentAddView { DataContext = equipmentAddViewModel };
-            //equipmentAddView.ShowDialog();
-
             _setCurrentViewModelAction?.Invoke(new EquipmentAddViewModel(SelectedSite, _setCurrentViewModelAction, _isFromRegisteredEquipment));
             LoadEquiments();
         }
 
         private void EditEquipment(Equipment equipment)
         {
-            //var equipmentEditViewModel = new EquipmentEditViewModel(equipment);
-            //var equipmentEditView = new EquipmentEditView { DataContext = equipmentEditViewModel };
-            //equipmentEditView.ShowDialog();
             _setCurrentViewModelAction?.Invoke(new EquipmentEditViewModel(equipment, _setCurrentViewModelAction, _isFromRegisteredEquipment));
 
             LoadEquiments();

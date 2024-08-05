@@ -42,14 +42,13 @@ namespace KitchenEquipmentMaintenance.ViewModels
         {
             using (var context = new AppDbContext())
             {
-                // Check if the user is already attached to the context
                 var existingUser = context.Users.Find(user.UserId);
 
                 if (existingUser != null)
                 {
-                    context.Users.Remove(existingUser); // Remove the attached entity
+                    context.Users.Remove(existingUser);
                     context.SaveChanges();
-                    Users.Remove(user); // Remove from the local collection
+                    Users.Remove(user);
                 }
                 else
                 {                  

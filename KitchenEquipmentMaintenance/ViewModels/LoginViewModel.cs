@@ -128,7 +128,6 @@ namespace KitchenEquipmentMaintenance.ViewModels
                     if (user != null)
                     {
                         StoreCurrentUser(user);
-                        LoginStatus = "Login Successful!";
                         ShowAdminView();
                     }
                     else
